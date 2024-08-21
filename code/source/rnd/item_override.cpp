@@ -96,6 +96,10 @@ namespace rnd {
       retKey.scene = cdata.sub13s[8].data;
       retKey.type = ItemOverride_Type::OVR_GROTTO_SCRUB;
       retKey.flag = getItemId;
+    } else if (scene == 0x0034 && actor->id == game::act::Id::notsure_Salesman) {
+      retKey.scene = scene;
+      retKey.type = ItemOverride_Type::OVR_COLLECTABLE;
+      retKey.flag = getItemId;
     } else {
       retKey.scene = scene;
       retKey.type = ItemOverride_Type::OVR_BASE_ITEM;
@@ -105,6 +109,7 @@ namespace rnd {
   }
 
   ItemOverride ItemOverride_Lookup(game::act::Actor* actor, u16 scene, s16 getItemId) {
+    util::Print("%s: Our param values:\nActor Type %#04x\nGet Item ID: %#04x\nActor ID: %#06x\n",__func__, actor->actor_type, getItemId, actor->id);
     // #if defined ENABLE_DEBUG || defined DEBUG_PRINT
     //     util::Print(
     //         "%s: Our param values:\nActor Type %#04x\nGet Item ID: %#04x\nActor ID: %#06x\n",
@@ -425,7 +430,19 @@ namespace rnd {
       if (gExtSaveData.givenItemChecks.enGinkoManGivenItem == 1 && bankRupeeCount >= 1000) {
         getItemId = incomingNegative ? -0x03 : 0x03;
       }
-    }
+    } else if (actorId == game::act::Id::notsure_Salesman) {
+        // rnd::util::Print("%s: from %#06x\n", __func__, fromActor->id);
+        // getItemId = (s16)GetItemID::GI_STICKS_1;
+        // storedActorId = fromActor->id;
+        // storedGetItemId = (rnd::GetItemID)incomingGetItemId;
+        // player->get_item_id = getItemId;
+    } else if (actorId == game::act::Id::notsure_BombSeller) {
+        // rnd::util::Print("%s: from %#06x\n", __func__, fromActor->id);
+        // getItemId = (s16)GetItemID::GI_MAGIC_BEAN;
+        // storedActorId = fromActor->id;
+        // storedGetItemId = (rnd::GetItemID)incomingGetItemId;
+        // player->get_item_id = getItemId;
+      }
 
     return getItemId;
   }
@@ -680,26 +697,8 @@ namespace rnd {
     ItemOverride override = {0};
     s32 incomingNegative = incomingGetItemId < 0;
     if (fromActor != NULL && incomingGetItemId != 0) {
-
-      if(fromActor->id == game::act::Id::notsure_BombSeller) {
-        rnd::util::Print("%s: from %#06x\n", __func__, fromActor->id);
-        s16 getItemId = (s16)GetItemID::GI_MAGIC_BEAN;
-        storedActorId = fromActor->id;
-        storedGetItemId = (rnd::GetItemID)incomingGetItemId;
-        player->get_item_id = getItemId;
-        return;
-      }
-
-      if(fromActor->id == game::act::Id::notsure_Salesman) {
-        rnd::util::Print("%s: from %#06x\n", __func__, fromActor->id);
-        s16 getItemId = (s16)GetItemID::GI_STICKS_1;
-        storedActorId = fromActor->id;
-        storedGetItemId = (rnd::GetItemID)incomingGetItemId;
-        player->get_item_id = getItemId;
-        return;
-      }
-
       s16 getItemId = ItemOverride_CheckNpc(fromActor->id, incomingGetItemId, incomingNegative);
+      util::Print("%s: Our actor ID is %#06x\nScene is %#04x\nIncoming item id is %#04x\ngetItemId %#04x\nParams %#04x\n", __func__, fromActor->id, gctx->scene, incomingGetItemId, getItemId, fromActor->params);
       // #if defined ENABLE_DEBUG || DEBUG_PRINT
       //       util::Print("%s: Our actor ID is %#06x\nScene is %#04x\nIncoming item id is %#04x\ngetItemId
       //       %#04x\nParams %#04x\n", __func__, fromActor->id,
