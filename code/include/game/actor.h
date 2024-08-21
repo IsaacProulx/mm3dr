@@ -36,6 +36,8 @@ namespace game::act {
     DayTimer = 0x00F5,
     // Elegy of Emptiness statue
     ObjElegyStatue = 0x001F,
+    // Trading Post Salesman
+    notsure_Salesman = 0x0025,
     // En_Im - Gorman Bros Race - Ingo
     EnIn = 0x004D,
     // Clear Tag (?)
@@ -50,6 +52,8 @@ namespace game::act {
     EnSsh = 0x0090,
     // Gold Skullutla
     EnSi = 0x0099,
+    // Bomb Salesman
+    notsure_BombSeller = 0x00D4,
     // Powder Keg Trial Goron
     EnGo = 0x00D5,
     // [1] Deku Palace / Woodfall Temple moving platforms (after player lands on them)

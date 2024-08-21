@@ -680,6 +680,25 @@ namespace rnd {
     ItemOverride override = {0};
     s32 incomingNegative = incomingGetItemId < 0;
     if (fromActor != NULL && incomingGetItemId != 0) {
+
+      if(fromActor->id == game::act::Id::notsure_BombSeller) {
+        rnd::util::Print("%s: from %#06x\n", __func__, fromActor->id);
+        s16 getItemId = (s16)GetItemID::GI_MAGIC_BEAN;
+        storedActorId = fromActor->id;
+        storedGetItemId = (rnd::GetItemID)incomingGetItemId;
+        player->get_item_id = getItemId;
+        return;
+      }
+
+      if(fromActor->id == game::act::Id::notsure_Salesman) {
+        rnd::util::Print("%s: from %#06x\n", __func__, fromActor->id);
+        s16 getItemId = (s16)GetItemID::GI_STICKS_1;
+        storedActorId = fromActor->id;
+        storedGetItemId = (rnd::GetItemID)incomingGetItemId;
+        player->get_item_id = getItemId;
+        return;
+      }
+
       s16 getItemId = ItemOverride_CheckNpc(fromActor->id, incomingGetItemId, incomingNegative);
       // #if defined ENABLE_DEBUG || DEBUG_PRINT
       //       util::Print("%s: Our actor ID is %#06x\nScene is %#04x\nIncoming item id is %#04x\ngetItemId
